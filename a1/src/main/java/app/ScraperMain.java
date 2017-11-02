@@ -1,32 +1,16 @@
 package app;
 
-import app.wiki.crawler.Category;
+import app.crawler.SiteCrawler;
 
 import java.io.IOException;
 
 public class ScraperMain {
-    public static void main(String[] args) {
-        try {
-            new Category("/wiki/Programming_language", 2);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        /*
-        Elements linkElements = doc.select("a[href]");
+    public static void main(String[] args) throws IOException {
+        SiteCrawler page = new SiteCrawler("https://en.wikipedia.org/wiki/Programming_language", 1);
 
 
-
-        Set<String> links = linkElements
-                .stream()
-                .map(l -> l.attr("href"))
-                .filter(l -> l.matches("/wiki(/Main_Page|[^:]*)"))
-                .collect(Collectors.toSet());
-
-        System.out.println(links.size());
-        links.forEach(System.out::println);
-
-        //System.out.println(doc.body().text().replaceAll("[^a-zA-Z0-9 ]", ""));
-        System.out.println(doc.body().text().replaceAll("\\[.*\\]|[^a-zA-Z0-9 ]", "").replaceAll(" +", " "));
-        */
+        //page.getLinks().forEach(System.out::println);
+        //System.out.println(page.getLinks().size());
+        //System.out.println(page.getBagOfWords());
     }
 }

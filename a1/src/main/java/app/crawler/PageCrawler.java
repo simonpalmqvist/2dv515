@@ -9,13 +9,13 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class PageCrawler {
+public class PageCrawler {
 
     private String html = "";
     private Set<String> links = new HashSet<>();
     private String bagOfWords = "";
 
-    PageCrawler(String url, LinkFilter linkFilter) throws IOException {
+    public PageCrawler(String url, LinkFilter linkFilter) throws IOException {
         URL pageUrl = new URL(url);
 
         BufferedReader pageReader = new BufferedReader(new InputStreamReader(pageUrl.openStream()));
@@ -51,15 +51,15 @@ class PageCrawler {
 
     }
 
-    String getHtml() {
+    public String getHtml() {
         return html;
     }
 
-    Set<String> getLinks() {
+    public Set<String> getLinks() {
         return links;
     }
 
-    String getBagOfWords() {
+    public String getBagOfWords() {
         return bagOfWords;
     }
 }

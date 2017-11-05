@@ -1,16 +1,18 @@
 package app;
 
 import app.crawler.SiteCrawler;
+import app.crawler.SiteStorage;
+import app.wiki.WikiSiteCrawler;
 
 import java.io.IOException;
 
 public class ScraperMain {
     public static void main(String[] args) throws IOException {
-        SiteCrawler page = new SiteCrawler("https://en.wikipedia.org/wiki/Programming_language", 1);
+        String category1 = "/wiki/Programming_language";
+        String category2 = "/wiki/Video_game";
+        int maxDepth = 1;
 
-
-        //page.getLinks().forEach(System.out::println);
-        //System.out.println(page.getLinks().size());
-        //System.out.println(page.getBagOfWords());
+        SiteStorage.store("programming", new WikiSiteCrawler(category1, maxDepth));
+        SiteStorage.store("gaming", new WikiSiteCrawler(category2, maxDepth));
     }
 }

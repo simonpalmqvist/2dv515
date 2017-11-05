@@ -22,3 +22,6 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+### Will be built from java dir ###
+src/main/resources/static/

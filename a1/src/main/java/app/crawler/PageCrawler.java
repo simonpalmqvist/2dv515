@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class PageCrawler {
 
     private static final String HTML_TAG_REGEX = "<(script|style|title)[^>/]*>(?s).*?</(script|style|title)>|<.*?>";
-    private static final String CHARACTER_REGEX = "\\[.*\\]|[^a-zA-Z0-9\\-_ ]";
+    private static final String FILTER_CHARACTER_REGEX = "\\[.*\\]|[^a-zA-Z\\-_ ]";
 
     private String html = "";
     private Set<String> links = new LinkedHashSet<>();
@@ -60,7 +60,7 @@ public class PageCrawler {
     private void parseBagOfWords() {
         bagOfWords = html
                 .replaceAll(HTML_TAG_REGEX, " ") // removes all tags and content of script, title and style tags
-                .replaceAll(CHARACTER_REGEX, "") // removes all characters that are not of interest and all text within brackets []
+                .replaceAll(FILTER_CHARACTER_REGEX, "") // removes all characters that are not of interest and all text within brackets []
                 .replaceAll(" +", " ") // Replace 2 or more spaces with one space
                 .trim()
                 .toLowerCase();

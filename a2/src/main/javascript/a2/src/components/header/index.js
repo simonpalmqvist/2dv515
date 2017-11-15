@@ -9,7 +9,7 @@ export default class Header extends Component {
 				<h1>Assignment 2</h1>
 				<nav>
 					<Link activeClassName={style.active} href="/">Home</Link>
-					<Link activeClassName={style.active} href="/profile/john">John</Link>
+					<Link activeClassName={style.active} href="/blogkmeans">K-means Clustering Blog</Link>
 				</nav>
 			</header>
 		);

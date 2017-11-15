@@ -12,7 +12,7 @@
 
 ### Dev
 
-Run `npm run watch -- -p 3000` to start client dev server, requests are proxied on to port 8080.
+Run `npm run dev -- -p 3000` to start client dev server, requests are proxied on to port 8080.
 
 ## Server
 

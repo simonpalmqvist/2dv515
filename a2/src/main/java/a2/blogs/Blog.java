@@ -1,6 +1,7 @@
 package a2.blogs;
 
 import a2.cluster.PearsonItem;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,7 @@ public class Blog implements PearsonItem {
         return name;
     }
 
+    @JsonIgnore
     public Map<String, Double> getWordOccurrences() {
         return wordOccurrences;
     }
@@ -26,6 +28,7 @@ public class Blog implements PearsonItem {
         wordOccurrences.put(word, occurrences);
     }
 
+    @JsonIgnore
     @Override
     public Map<String, Double> getValues() {
         return getWordOccurrences();

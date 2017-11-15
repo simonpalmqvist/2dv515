@@ -11,13 +11,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class BlogService {
 
     @Autowired
-    BlogRepository blogs;
+    private BlogRepository blogs;
 
     @PostConstruct
     public void init() throws IOException {
@@ -42,5 +43,13 @@ public class BlogService {
             System.out.println("\n\nCluster");
             cluster.forEach(blog -> System.out.println(blog.getName()));
         });
+    }
+
+    public Set<Blog> getBlogs() {
+        return blogs.getBlogs();
+    }
+
+    public List<Set<Blog>> getBlogClusters() {
+        return blogs.getKClusters();
     }
 }

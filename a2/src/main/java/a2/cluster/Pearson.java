@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Pearson {
 
-    public static <T> double calculateScore(Map<T, Double> a, Map<T, Double> b) {
+    public static double calculateScore(Map<?, Double> a, Map<?, Double> b) {
         double sumA = 0;
         double sumB = 0;
         double sumAsq = 0;

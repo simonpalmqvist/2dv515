@@ -25,3 +25,5 @@ nbdist/
 
 ### Will be built from java dir ###
 src/main/resources/static/
+
+node_modules

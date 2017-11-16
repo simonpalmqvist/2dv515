@@ -1,6 +1,7 @@
 package a2.blogs;
 
 
+import a2.cluster.HierarchicalCluster;
 import a2.cluster.KmeansCluster;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,17 +40,18 @@ public class BlogService {
 
         blogs.setKClusters(KmeansCluster.createCluster(blogs.getBlogs(), 4));
 
-        blogs.getKClusters().forEach(cluster -> {
-            System.out.println("\n\nCluster");
-            cluster.forEach(blog -> System.out.println(blog.getName()));
-        });
+        blogs.setHierarchicalCluster(HierarchicalCluster.createClusters(blogs.getBlogs()));
     }
 
     public Set<Blog> getBlogs() {
         return blogs.getBlogs();
     }
 
-    public List<Set<Blog>> getBlogClusters() {
+    public List<Set<Blog>> getBlogKClusters() {
         return blogs.getKClusters();
+    }
+
+    public HierarchicalCluster<Blog> getBlogHClusters() {
+        return blogs.getHierarchicalCluster();
     }
 }

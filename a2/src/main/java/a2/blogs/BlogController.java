@@ -1,5 +1,6 @@
 package a2.blogs;
 
+import a2.cluster.HierarchicalCluster;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,12 @@ public class BlogController {
     }
 
     @RequestMapping("/api/blogs/k-clusters")
-    public List<Set<Blog>> blogClusters() {
-        return service.getBlogClusters();
+    public List<Set<Blog>> blogKClusters() {
+        return service.getBlogKClusters();
+    }
+
+    @RequestMapping("/api/blogs/h-clusters")
+    public HierarchicalCluster<Blog> blogHClusters() {
+        return service.getBlogHClusters();
     }
 }

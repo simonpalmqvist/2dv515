@@ -4,8 +4,8 @@ import { Router } from 'preact-router';
 import Header from './header';
 import Home from '../routes/home';
 import BlogKMeans from '../routes/blogkmeans';
-// import Home from 'async!../routes/home';
-// import Profile from 'async!../routes/profile';
+import BlogHierarchical from '../routes/bloghierarchical';
+
 
 export default class App extends Component {
 	/** Gets fired when the route changes.
@@ -23,6 +23,7 @@ export default class App extends Component {
 				<Router onChange={this.handleRoute}>
 					<Home path="/" />
 					<BlogKMeans path="/blogkmeans" />
+					<BlogHierarchical path="/bloghierarchical" />
 				</Router>
 			</div>
 		);

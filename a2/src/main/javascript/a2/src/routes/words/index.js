@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
 import style from './style';
 
-export default class Games extends Component {
+export default class Words extends Component {
 	state = {
 		hasSelectedWords: false,
 		topWords: [],
@@ -9,20 +9,30 @@ export default class Games extends Component {
 	}
 
 	componentDidMount() {
-	    fetch(`/api/games/words`)
-            .then(response => response.json())
+		this.fetchWordsInfo(this.props.type)
+	}
+
+	componentWillUpdate(nextProps) {
+		if (nextProps.type !== this.props.type) {
+			this.fetchWordsInfo(nextProps.type)
+		}
+	}
+
+	fetchWordsInfo = (type) => {
+		fetch(`/api/${type}/words`)
+			.then(response => response.json())
 			.then(this.updateCommonWords)
 			.then(this.maybeFetchClusters)
-            .catch(console.log)
+			.catch(console.log)
 	}
 
 	maybeFetchClusters = () => {
 		if(!this.state.hasSelectedWords) return;
 
-		fetch(`/api/games/clusters`)
+		fetch(`/api/${this.props.type}/k-clusters`)
 			.then(response => response.json())
 			.then(this.updateClusters)
-			.catch(console.log);
+			.catch(console.error);
 	}
 
 	updateClusters = (clusters) => {
@@ -36,13 +46,13 @@ export default class Games extends Component {
 			.filter(item => item.checked)
 			.map(item => item.word)
 
-		fetch(`/api/games/words`, { method: 'POST', body: JSON.stringify(pickedWords) , headers: {
+		fetch(`/api/${this.props.type}/words`, { method: 'POST', body: JSON.stringify(pickedWords) , headers: {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json'
 		}})
 			.then(() => this.setState({ hasSelectedWords: true }))
 			.then(this.maybeFetchClusters)
-			.catch(console.log)
+			.catch(console.error)
 	}
 
 	updateCommonWords = ({topWords, selectedWords}) => {
@@ -70,7 +80,7 @@ export default class Games extends Component {
 
 		if(state.hasSelectedWords) {
 			return (
-				<div class={style.games}>
+				<div class={style.words}>
 					<ul>
 						{
 							state.clusters.map(wordCollections => (
@@ -88,7 +98,7 @@ export default class Games extends Component {
 		}
 
 		return (
-			<div class={style.games}>
+			<div class={style.words}>
 				<form onSubmit={this.requestClusterBasedOnWords}>
 					<input type='submit' value='Get clusters based on words'/>
 					{

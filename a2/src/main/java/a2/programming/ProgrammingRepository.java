@@ -1,9 +1,9 @@
-package a2.games;
+package a2.programming;
 
 import a2.words.WordsRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class GamesRepository extends WordsRepository {
+public class ProgrammingRepository extends WordsRepository {
 
 }

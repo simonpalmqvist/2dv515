@@ -1,4 +1,4 @@
-package a2.games;
+package a2.programming;
 
 import a2.words.WordsController;
 import a2.words.WordsService;
@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/games")
-public class GamesController extends WordsController {
+@RequestMapping("/api/programming")
+public class ProgrammingController extends WordsController {
 
     @Autowired
-    GamesService service;
+    ProgrammingService service;
 
     @Override
     protected WordsService getService() {

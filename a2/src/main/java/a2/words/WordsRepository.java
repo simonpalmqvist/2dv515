@@ -1,0 +1,41 @@
+package a2.words;
+
+import java.util.*;
+
+abstract public class WordsRepository {
+    private CommonWords commonWords;
+    final private List<WordCollection> wordCollections = new ArrayList<>();
+    private List<Set<WordCollection>> kClusters;
+
+    public CommonWords getCommonWords() {
+        return commonWords;
+    }
+
+    public void setCommonWords(Map<String, Double> words) {
+        this.commonWords = new CommonWords(words);
+    }
+
+    public void setSelectedWords(String[] selectedWords) {
+        this.commonWords.setSelectedWords(Arrays.asList(selectedWords));
+    }
+
+
+    public List<WordCollection> getWordCollections() {
+        return wordCollections;
+    }
+
+    public WordCollection addWordCollection(String name) {
+        WordCollection wordCollection = new WordCollection(name);
+        wordCollections.add(wordCollection);
+
+        return wordCollection;
+    }
+
+    public List<Set<WordCollection>> getkClusters() {
+        return kClusters;
+    }
+
+    public void setkClusters(List<Set<WordCollection>> kClusters) {
+        this.kClusters = kClusters;
+    }
+}

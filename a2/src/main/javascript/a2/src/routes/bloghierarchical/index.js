@@ -8,7 +8,7 @@ export default class BlogHierarchical extends Component {
 	}
 
 	componentDidMount(props) {
-	    fetch(`/api/blogs/h-clusters`)
+	    fetch(`/api/blogs/words/h-clusters`)
             .then(response => response.json())
             .then(this.updateCluster)
             .catch(console.log);

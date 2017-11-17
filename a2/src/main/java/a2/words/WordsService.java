@@ -35,9 +35,9 @@ public abstract class WordsService {
                     .lines(file.toPath())
                     .forEach(line -> Arrays.stream(line.split(" "))
                             .forEach(word -> {
-                                Double value = words.get(word);
+                                wordCollection.addWord(word);
 
-                                wordCollection.addWord(word, value);
+                                Double value = words.get(word);
                                 if(value != null) words.put(word, value + 1.0);
                                 else              words.put(word, 1.0);
                             })
@@ -69,7 +69,7 @@ public abstract class WordsService {
         return getRepository().getkClusters();
     }
 
-    private void createKCluster() {
+    protected void createKCluster() {
         getRepository().setkClusters(KmeansCluster.createCluster(getRepository().getWordCollections(), 4));
     }
 
@@ -77,7 +77,7 @@ public abstract class WordsService {
         return getRepository().getHierarchicalCluster();
     }
 
-    private void createHCluster() {
+    protected void createHCluster() {
         getRepository().setHierarchicalCluster(HierarchicalCluster.createClusters(getRepository().getWordCollections()));
     }
 }

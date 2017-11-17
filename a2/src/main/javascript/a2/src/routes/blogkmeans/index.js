@@ -7,7 +7,7 @@ export default class BlogKMeans extends Component {
 	}
 
 	componentDidMount(props) {
-	    fetch(`/api/blogs/k-clusters`)
+	    fetch(`/api/blogs/words/k-clusters`)
             .then(response => response.json())
             .then(this.updateClusters)
             .catch(console.log);
@@ -26,7 +26,13 @@ export default class BlogKMeans extends Component {
                             <li>
                                 <p>Cluster:</p>
                                 <ul>
-                                    {blogs.map(blog => <li>{blog.name}</li>)}
+                                    {blogs
+										.sort((a, b) => {
+											if(a.name < b.name) return -1;
+											if(a.name > b.name) return 1;
+											return 0;
+										})
+										.map(blog => <li>{blog.name}</li>)}
                                 </ul>
                             </li>
                         ))

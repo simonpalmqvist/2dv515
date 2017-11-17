@@ -19,13 +19,17 @@ public class WordCollection implements PearsonItem {
         return name;
     }
 
+    public void addWord(String word) {
+        addWord(word, 1.0);
+    }
+
     public void addWord(String word, Double value) {
         Double currentValue = wordOccurrences.get(word);
 
         if(currentValue == null) {
-            wordOccurrences.put(word, 1.0);
+            wordOccurrences.put(word, value);
         } else {
-            wordOccurrences.put(word, currentValue + 1.0);
+            wordOccurrences.put(word, currentValue + value);
         }
     }
 

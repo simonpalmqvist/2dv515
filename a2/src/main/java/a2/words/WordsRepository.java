@@ -1,11 +1,14 @@
 package a2.words;
 
+import a2.cluster.HierarchicalCluster;
+
 import java.util.*;
 
 abstract public class WordsRepository {
     private CommonWords commonWords;
     final private List<WordCollection> wordCollections = new ArrayList<>();
     private List<Set<WordCollection>> kClusters;
+    private HierarchicalCluster<WordCollection> hierarchicalCluster;
 
     public CommonWords getCommonWords() {
         return commonWords;
@@ -38,4 +41,13 @@ abstract public class WordsRepository {
     public void setkClusters(List<Set<WordCollection>> kClusters) {
         this.kClusters = kClusters;
     }
+
+    public HierarchicalCluster<WordCollection> getHierarchicalCluster() {
+        return hierarchicalCluster;
+    }
+
+    public void setHierarchicalCluster(HierarchicalCluster<WordCollection> hClusters) {
+        this.hierarchicalCluster = hClusters;
+    }
+
 }

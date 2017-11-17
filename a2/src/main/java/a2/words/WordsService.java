@@ -1,6 +1,7 @@
 package a2.words;
 
 
+import a2.cluster.HierarchicalCluster;
 import a2.cluster.KmeansCluster;
 import org.springframework.util.ResourceUtils;
 
@@ -46,8 +47,6 @@ public abstract class WordsService {
         getRepository().setCommonWords(words);
     }
 
-
-
     public CommonWords getCommonWords() {
         return getRepository().getCommonWords();
     }
@@ -56,6 +55,7 @@ public abstract class WordsService {
         getRepository().setSelectedWords(words);
         updateWordCollectionsWords();
         createKCluster();
+        createHCluster();
     }
 
     private void updateWordCollectionsWords() {
@@ -71,5 +71,13 @@ public abstract class WordsService {
 
     private void createKCluster() {
         getRepository().setkClusters(KmeansCluster.createCluster(getRepository().getWordCollections(), 4));
+    }
+
+    public HierarchicalCluster<WordCollection> getHCluster() {
+        return getRepository().getHierarchicalCluster();
+    }
+
+    private void createHCluster() {
+        getRepository().setHierarchicalCluster(HierarchicalCluster.createClusters(getRepository().getWordCollections()));
     }
 }

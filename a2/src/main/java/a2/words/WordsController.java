@@ -1,5 +1,6 @@
 package a2.words;
 
+import a2.cluster.HierarchicalCluster;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,5 +28,10 @@ abstract public class WordsController {
     @GetMapping("/k-clusters")
     public List<Set<WordCollection>> wordKClusters() {
         return getService().getKCluster();
+    }
+
+    @GetMapping("/h-clusters")
+    public HierarchicalCluster<WordCollection> wordHClusters() {
+        return getService().getHCluster();
     }
 }

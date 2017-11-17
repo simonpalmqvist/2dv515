@@ -1,8 +1,12 @@
-import { h, Component } from 'preact';
-import style from './style';
+import { h, Component } from 'preact'
+import style from './style'
+import ClusterTypeDropdown, { TYPES } from '../../components/cluster-type-dropdown'
+import KMeans from '../../components/k-means'
+import Hierarchical from '../../components/hierarchical'
 
 export default class Words extends Component {
 	state = {
+	    clusterType: TYPES.K_MEANS,
 		hasSelectedWords: false,
 		topWords: [],
 		clusters: []
@@ -27,17 +31,17 @@ export default class Words extends Component {
 	}
 
 	maybeFetchClusters = () => {
-		if(!this.state.hasSelectedWords) return;
+		if(!this.state.hasSelectedWords) return
 
-		fetch(`/api/${this.props.type}/k-clusters`)
+		fetch(`/api/${this.props.type}/${this.state.clusterType}`)
 			.then(response => response.json())
 			.then(this.updateClusters)
-			.catch(console.error);
+			.catch(console.error)
 	}
 
 	updateClusters = (clusters) => {
-		this.setState({ clusters });
-	};
+		this.setState({ clusters })
+	}
 
 	requestClusterBasedOnWords = e => {
 		e.preventDefault()
@@ -61,13 +65,13 @@ export default class Words extends Component {
 				.map(([word, occurrences]) => ({ word, occurrences, checked: false }))
 				.sort((a, b) => b.occurrences - a.occurrences),
 			hasSelectedWords: !!selectedWords
-		});
-	};
+		})
+	}
 
 	checkWord = (i, item) => () => {
 		const newItem = { ...item, checked: !item.checked}
 
-		const newArray = this.state.topWords.slice();
+		const newArray = this.state.topWords.slice()
 
 		newArray[i] = newItem
 
@@ -76,23 +80,24 @@ export default class Words extends Component {
 		})
 	}
 
+	updateDropdown = (e) => {
+	    this.setState({
+	        clusterType: e.target.value,
+            clusters: e.target.value === TYPES.K_MEANS ? [] : {}
+	    }, this.maybeFetchClusters)
+    }
+
 	render(props, state) {
 
 		if(state.hasSelectedWords) {
 			return (
 				<div class={style.words}>
-					<ul>
-						{
-							state.clusters.map(wordCollections => (
-								<li>
-									<p>Cluster:</p>
-									<ul>
-										{wordCollections.map(wordCollection => <li>{wordCollection.name}</li>)}
-									</ul>
-								</li>
-							))
-						}
-					</ul>
+                    <ClusterTypeDropdown value={state.clusterType} onChange={this.updateDropdown} />
+                    {
+                        state.clusterType === TYPES.K_MEANS ?
+                            (<KMeans clusters={state.clusters} />) :
+                            (<Hierarchical cluster={state.clusters}/>)
+                    }
 				</div>
 			)
 		}
@@ -111,6 +116,6 @@ export default class Words extends Component {
 					}
 				</form>
 			</div>
-		);
+		)
 	}
 }

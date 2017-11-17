@@ -6,9 +6,12 @@
 
 ### Setup
 
-1. Install Node & NPM
+1. Install Node and NPM
 2. Install preact CLI `npm install -g preact-cli`
-3. Build production bundle `cd src/main/javascript/a2/; npm run build -- --dest "../../resources/static/"`
+3. Build production bundle `cd src/main/javascript/a2/; npm run build -- --dest "../../resources/static/" --clean`
+4. Add wikipedia set in resources folder with structure
+    * `data/Words/Games/example_article`
+    * `data/Words/Programming/example_article`
 
 ### Dev
 

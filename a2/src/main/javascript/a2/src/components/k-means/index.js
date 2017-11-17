@@ -12,7 +12,13 @@ export default class KMeans extends Component {
 							<p>Cluster:</p>
 							<ul>
 								{
-									wordCollections.map(wordCollection => (
+									wordCollections
+                                        .sort((a, b) => {
+                                            if(a.name < b.name) return -1
+                                            if(a.name > b.name) return 1
+                                            return 0
+                                        })
+                                        .map(wordCollection => (
 										<li key={`${i}-${wordCollection.name}`}>{wordCollection.name}</li>
 									))
 								}

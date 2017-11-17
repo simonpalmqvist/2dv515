@@ -17,7 +17,7 @@ export default class Hierarchical extends Component {
 
 	render(props) {
 		return (
-			<div>
+			<div style={{ paddingTop: 20 }}>
 				{props.cluster.distance ? this.createClusterRepresentations(props.cluster) : undefined}
 			</div>
 		)

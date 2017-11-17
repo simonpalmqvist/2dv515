@@ -4,8 +4,7 @@ import { Router } from 'preact-router';
 import Header from './header';
 import Home from '../routes/home';
 import Words from '../routes/words';
-import BlogKMeans from '../routes/blogkmeans';
-import BlogHierarchical from '../routes/bloghierarchical';
+import Blogs from '../routes/blogs';
 
 
 export default class App extends Component {
@@ -24,8 +23,7 @@ export default class App extends Component {
 				<Router onChange={this.handleRoute}>
 					<Home path="/" />
 					<Words path="/words/:type" />
-					<BlogKMeans path="/blogkmeans" />
-					<BlogHierarchical path="/bloghierarchical" />
+					<Blogs path="/blogs" />
 				</Router>
 			</div>
 		);

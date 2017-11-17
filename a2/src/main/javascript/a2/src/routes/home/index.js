@@ -6,7 +6,7 @@ export default class Home extends Component {
 		return (
 			<div class={style.home}>
 				<h1>Home</h1>
-				<p>Welcome.</p>
+				<p>Welcome to assignment 2</p>
 			</div>
 		);
 	}

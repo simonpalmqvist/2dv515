@@ -11,8 +11,7 @@ export default class Header extends Component {
 					<Link activeClassName={style.active} href="/">Home</Link>
 					<Link activeClassName={style.active} href="/words/programming">Programming</Link>
 					<Link activeClassName={style.active} href="/words/games">Games</Link>
-					<Link activeClassName={style.active} href="/blogkmeans">K-means Clustering Blog</Link>
-					<Link activeClassName={style.active} href="/bloghierarchical">Hierarchical Clustering Blog</Link>
+					<Link activeClassName={style.active} href="/blogs">Blogs</Link>
 				</nav>
 			</header>
 		);

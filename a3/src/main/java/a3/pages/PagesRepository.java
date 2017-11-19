@@ -10,6 +10,7 @@ import java.util.Map;
 @Repository
 public class PagesRepository {
 
+    final private Map<String, Page> nameToPage = new HashMap<>();
     final private List<Page> pages = new ArrayList<>();
     final private Map<String, Integer> words = new HashMap<>();
 
@@ -23,11 +24,16 @@ public class PagesRepository {
         Page page = new Page(name);
 
         pages.add(page);
+        nameToPage.put(name, page);
 
         return page;
     }
 
     List<Page> getPages() {
         return pages;
+    }
+
+    Page getPage(String name) {
+        return nameToPage.get(name);
     }
 }

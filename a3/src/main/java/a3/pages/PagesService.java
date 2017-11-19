@@ -19,9 +19,9 @@ public class PagesService {
 
     @PostConstruct
     public void init() throws IOException {
-        File folder = ResourceUtils.getFile("classpath:data/Words/");
+        File wordFolder = ResourceUtils.getFile("classpath:data/Words/");
 
-        for (final File subFolder : folder.listFiles()) {
+        for (final File subFolder : wordFolder.listFiles()) {
             if(!subFolder.isDirectory()) continue;
 
             for (final File file : subFolder.listFiles()) {
@@ -35,6 +35,22 @@ public class PagesService {
                         );
             }
         }
+
+        File linkFolder = ResourceUtils.getFile("classpath:data/Links/");
+
+        for (final File subFolder : linkFolder.listFiles()) {
+            if(!subFolder.isDirectory()) continue;
+
+            for (final File file : subFolder.listFiles()) {
+                Page page = repository.getPage("/wiki/" + file.getName());
+
+                if(page != null) {
+                    Files.lines(file.toPath()).map(String::trim).forEach(page::addLink);
+                }
+            }
+        }
+
+        calculatePageRanks();
     }
 
     public List<SearchResult> queryPages(String query) {
@@ -73,7 +89,7 @@ public class PagesService {
         List<SearchResult> searchResults = new ArrayList<>();
 
         for(int i = 0; i < pages.size(); i++) {
-            double score = 1.0 * frequency.get(i) + 0.5 * location.get(i);
+            double score = 1.0 * pages.get(i).getPageRank() + 1.0 * frequency.get(i) + 0.5 * location.get(i);
 
             if(score > 0.001) searchResults.add(new SearchResult(pages.get(i), score));
         }
@@ -95,5 +111,24 @@ public class PagesService {
 
             for(int i = 0; i < scores.size(); i++) scores.set(i, scores.get(i) / maxScore);
         }
+    }
+
+    private void calculatePageRanks() {
+        for(int i = 0; i < 20; i++) {
+            System.out.println("Iteration " + i);
+            repository.getPages().forEach(this::calculatePageRank);
+        }
+    }
+
+    private void calculatePageRank(Page page) {
+        double newPageRank = 0.0;
+
+        for(Page otherPage : repository.getPages()) {
+            if(page != otherPage && otherPage.hasLinkTo(page.getName())) {
+                newPageRank += otherPage.getPageRank() / (double) otherPage.getNumberOfLinks();
+            }
+        }
+
+        page.setPageRank(0.85 * newPageRank + 0.15);
     }
 }

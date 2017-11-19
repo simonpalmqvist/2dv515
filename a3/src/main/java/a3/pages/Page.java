@@ -32,4 +32,8 @@ class Page {
 
         numberOfWords++;
     }
+
+    Word getWord(int wordId) {
+        return words.get(wordId);
+    }
 }

@@ -35,6 +35,57 @@ public class PagesService {
             }
         }
 
-        repository.pages.forEach((p) -> System.out.println(p.getCategory() + ": " + p.getName()));
+        String query = "playstation";
+        int queryId = repository.getIdForWord(query);
+
+        List<Page> pages = repository.getPages();
+        List<Double> frequency = new ArrayList<>();
+        List<Double> location = new ArrayList<>();
+
+        for(int i = 0; i < pages.size(); i++) {
+            Page page = pages.get(i);
+            Word word = page.getWord(queryId);
+
+            if(word != null) {
+                frequency.add((double) word.getOccurrences());
+                location.add((double) word.getFirstPosition());
+            } else {
+                frequency.add(0.0);
+                location.add(0.0);
+            }
+        }
+
+        normalizeScores(frequency, false);
+        normalizeScores(location, true);
+
+        List<SearchResult> searchResults = new ArrayList<>();
+
+        for(int i = 0; i < pages.size(); i++) {
+            double score = 1.0 * frequency.get(i) + 0.5 * location.get(i);
+
+            searchResults.add(new SearchResult(pages.get(i), score));
+        }
+
+        Collections.sort(searchResults);
+
+        for(int i = 0; i < searchResults.size(); i++) {
+            SearchResult r = searchResults.get(i);
+
+            System.out.println(r.getPage().getName() + " with score: " + r.getScore());
+        }
+    }
+
+    private void normalizeScores(List<Double> scores, boolean smallIsGood) {
+        if(smallIsGood) {
+            double minScore = Collections.min(scores);
+
+            for(int i = 0; i < scores.size(); i++) {
+                scores.set(i, minScore / Math.max(scores.get(i), 0.00001));
+            }
+        } else {
+            double maxScore = Math.max(Collections.max(scores), 0.00001);
+
+            for(int i = 0; i < scores.size(); i++) scores.set(i, scores.get(i) / maxScore);
+        }
     }
 }

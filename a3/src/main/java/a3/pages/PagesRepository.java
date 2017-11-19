@@ -10,8 +10,8 @@ import java.util.Map;
 @Repository
 public class PagesRepository {
 
-    final public List<Page> pages = new ArrayList<>();
-    final public Map<String, Integer> words = new HashMap<>();
+    final private List<Page> pages = new ArrayList<>();
+    final private Map<String, Integer> words = new HashMap<>();
 
     int getIdForWord(String word) {
         if(!words.containsKey(word)) words.put(word, words.size());
@@ -25,5 +25,9 @@ public class PagesRepository {
         pages.add(page);
 
         return page;
+    }
+
+    List<Page> getPages() {
+        return pages;
     }
 }

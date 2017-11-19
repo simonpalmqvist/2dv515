@@ -2,13 +2,13 @@ package a3.pages;
 
 class Word {
 
-    private final int firstOccurrence;
+    private final int firstPosition;
     private final int id;
     private int occurrences;
 
-    Word(int id, int firstOccurrence) {
+    Word(int id, int firstPosition) {
         this.id = id;
-        this.firstOccurrence = firstOccurrence;
+        this.firstPosition = firstPosition;
         this.occurrences = 1;
     }
 
@@ -20,8 +20,8 @@ class Word {
         return occurrences;
     }
 
-    int getFirstOccurrence() {
-        return firstOccurrence;
+    int getFirstPosition() {
+        return firstPosition;
     }
 
     void incrementOccurrences() {

@@ -2,12 +2,13 @@ package a3.pages;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-class Page {
+class Page implements Serializable {
 
     final private Map<Integer, Word> words = new HashMap<>();
     final private Set<String> links = new HashSet<>();

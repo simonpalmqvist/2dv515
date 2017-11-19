@@ -10,9 +10,26 @@ import java.util.Map;
 @Repository
 public class PagesRepository {
 
+    final private boolean dataReadFromDisk;
+    final private Storage wordStorage = new Storage("words");
+    final private Storage pageStorage = new Storage("pages");
     final private Map<String, Page> nameToPage = new HashMap<>();
-    final private List<Page> pages = new ArrayList<>();
-    final private Map<String, Integer> words = new HashMap<>();
+    final private List<Page> pages;
+    final private Map<String, Integer> words;
+
+
+    PagesRepository() throws Exception {
+        if (wordStorage.exists() && pageStorage.exists()) {
+            words = (Map<String, Integer>) wordStorage.read();
+            pages = (List<Page>) pageStorage.read();
+            pages.forEach(p -> nameToPage.put(p.getName(), p));
+            dataReadFromDisk = true;
+        } else {
+            this.words = new HashMap<>();
+            this.pages = new ArrayList<>();
+            dataReadFromDisk = false;
+        }
+    }
 
     int getIdForWord(String word) {
         if(!words.containsKey(word)) words.put(word, words.size());
@@ -35,5 +52,14 @@ public class PagesRepository {
 
     Page getPage(String name) {
         return nameToPage.get(name);
+    }
+
+    void store() {
+        wordStorage.save(words);
+        pageStorage.save(pages);
+    }
+
+    public boolean isDataReadFromDisk() {
+        return dataReadFromDisk;
     }
 }

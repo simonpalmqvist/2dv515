@@ -19,6 +19,8 @@ public class PagesService {
 
     @PostConstruct
     public void init() throws IOException {
+        if(repository.isDataReadFromDisk()) return;
+
         File wordFolder = ResourceUtils.getFile("classpath:data/Words/");
 
         for (final File subFolder : wordFolder.listFiles()) {
@@ -51,6 +53,8 @@ public class PagesService {
         }
 
         calculatePageRanks();
+
+        repository.store();
     }
 
     public List<SearchResult> queryPages(String query) {
@@ -115,7 +119,6 @@ public class PagesService {
 
     private void calculatePageRanks() {
         for(int i = 0; i < 20; i++) {
-            System.out.println("Iteration " + i);
             repository.getPages().forEach(this::calculatePageRank);
         }
     }

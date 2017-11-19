@@ -1,6 +1,8 @@
 package a3.pages;
 
-class Word {
+import java.io.Serializable;
+
+class Word implements Serializable {
 
     private final int firstPosition;
     private final int id;

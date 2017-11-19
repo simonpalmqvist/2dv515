@@ -19,8 +19,8 @@ public class PagesRepository {
         return words.get(word);
     }
 
-    Page addPage(String category, String name) {
-        Page page = new Page(category, name);
+    Page addPage(String name) {
+        Page page = new Page(name);
 
         pages.add(page);
 

@@ -24,5 +24,6 @@ nbdist/
 .nb-gradle/
 
 src/main/resources/data/
+src/main/resources/static/
 pages.dat
 words.dat

@@ -17,7 +17,7 @@ public class PageController {
     PagesService service;
 
     @GetMapping
-    public List<SearchResult> greeting(@RequestParam(value="query", defaultValue="World") String query) {
+    public List<SearchResult> greeting(@RequestParam(value="query", defaultValue="") String query) {
         return service.queryPages(query);
     }
 

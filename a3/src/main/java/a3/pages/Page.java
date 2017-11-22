@@ -25,12 +25,14 @@ class Page implements Serializable {
     }
 
     void addWord(int wordId) {
+        // If word already exists increment occurrences otherwise store word and position
         if(words.containsKey(wordId)) {
             words.get(wordId).incrementOccurrences();
         } else {
             words.put(wordId, new Word(wordId, numberOfWords));
         }
 
+        // Increment number of words in page
         numberOfWords++;
     }
 

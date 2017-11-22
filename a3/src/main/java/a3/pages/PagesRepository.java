@@ -13,12 +13,13 @@ public class PagesRepository {
     final private boolean dataReadFromDisk;
     final private Storage wordStorage = new Storage("words");
     final private Storage pageStorage = new Storage("pages");
-    final private Map<String, Page> nameToPage = new HashMap<>();
+    final private Map<String, Page> nameToPage = new HashMap<>(); // Used for faster lookup
     final private List<Page> pages;
     final private Map<String, Integer> words;
 
 
     PagesRepository() throws Exception {
+        // If indexes are already stored on file then read and add them to memory
         if (wordStorage.exists() && pageStorage.exists()) {
             words = (Map<String, Integer>) wordStorage.read();
             pages = (List<Page>) pageStorage.read();

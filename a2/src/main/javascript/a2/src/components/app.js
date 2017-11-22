@@ -3,7 +3,7 @@ import { Router } from 'preact-router';
 
 import Header from './header';
 import Home from '../routes/home';
-import Words from '../routes/words';
+import Wiki from '../routes/wiki';
 import Blogs from '../routes/blogs';
 
 
@@ -22,7 +22,7 @@ export default class App extends Component {
 				<Header />
 				<Router onChange={this.handleRoute}>
 					<Home path="/" />
-					<Words path="/words/:type" />
+					<Wiki path="/wiki" />
 					<Blogs path="/blogs" />
 				</Router>
 			</div>

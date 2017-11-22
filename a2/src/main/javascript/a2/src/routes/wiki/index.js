@@ -4,7 +4,7 @@ import ClusterTypeDropdown, { TYPES } from '../../components/cluster-type-dropdo
 import KMeans from '../../components/k-means'
 import Hierarchical from '../../components/hierarchical'
 
-export default class Words extends Component {
+export default class Wiki extends Component {
 	state = {
 	    clusterType: TYPES.K_MEANS,
 		hasSelectedWords: false,
@@ -13,17 +13,7 @@ export default class Words extends Component {
 	}
 
 	componentDidMount() {
-		this.fetchWordsInfo(this.props.type)
-	}
-
-	componentWillUpdate(nextProps) {
-		if (nextProps.type !== this.props.type) {
-			this.fetchWordsInfo(nextProps.type)
-		}
-	}
-
-	fetchWordsInfo = (type) => {
-		fetch(`/api/${type}/words`)
+		fetch(`/api/wiki`)
 			.then(response => response.json())
 			.then(this.updateCommonWords)
 			.then(this.maybeFetchClusters)
@@ -33,7 +23,7 @@ export default class Words extends Component {
 	maybeFetchClusters = () => {
 		if(!this.state.hasSelectedWords) return
 
-		fetch(`/api/${this.props.type}/${this.state.clusterType}`)
+		fetch(`/api/wiki/${this.state.clusterType}`)
 			.then(response => response.json())
 			.then(this.updateClusters)
 			.catch(console.error)
@@ -50,7 +40,7 @@ export default class Words extends Component {
 			.filter(item => item.checked)
 			.map(item => item.word)
 
-		fetch(`/api/${this.props.type}/words`, { method: 'POST', body: JSON.stringify(pickedWords) , headers: {
+		fetch(`/api/wiki`, { method: 'POST', body: JSON.stringify(pickedWords) , headers: {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json'
 		}})

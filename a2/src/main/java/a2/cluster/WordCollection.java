@@ -1,4 +1,4 @@
-package a2.words;
+package a2.cluster;
 
 import a2.cluster.PearsonItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;

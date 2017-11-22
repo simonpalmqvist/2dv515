@@ -15,7 +15,7 @@ export default class Blogs extends Component {
 	}
 
 	fetchClusters = () => {
-		fetch(`/api/blogs/words/${this.state.clusterType}`)
+		fetch(`/api/blogs/${this.state.clusterType}`)
 			.then(response => response.json())
 			.then(this.updateClusters)
 			.catch(console.log)

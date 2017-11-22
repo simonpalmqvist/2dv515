@@ -3,9 +3,7 @@ package a2.blogs;
 
 import a2.cluster.HierarchicalCluster;
 import a2.cluster.KmeansCluster;
-import a2.words.WordCollection;
-import a2.words.WordsRepository;
-import a2.words.WordsService;
+import a2.cluster.WordCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -19,21 +17,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class BlogService extends WordsService {
+public class BlogService {
 
     @Autowired
-    private BlogRepository blogs;
+    private BlogRepository repository;
 
-    public BlogService() {
-        super("Blogs");
-    }
-
-    @Override
-    protected WordsRepository getRepository() {
-        return blogs;
-    }
-
-    @Override
     @PostConstruct
     public void init() throws IOException {
         File file = ResourceUtils.getFile("classpath:blogdata.txt");
@@ -47,11 +35,27 @@ public class BlogService extends WordsService {
                 .stream()
                 .skip(1)
                 .forEach(data -> {
-                    WordCollection wordCollection = getRepository().addWordCollection(data[0]);
+                    WordCollection wordCollection = repository.addWordCollection(data[0]);
                     for(int i = 1; i < data.length; i++) wordCollection.addWord(items.get(0)[i], Double.parseDouble(data[i]));
         });
 
         createKCluster();
         createHCluster();
+    }
+
+    public List<Set<WordCollection>> getKCluster() {
+        return repository.getkClusters();
+    }
+
+    protected void createKCluster() {
+        repository.setkClusters(KmeansCluster.createCluster(repository.getWordCollections(), 4));
+    }
+
+    public HierarchicalCluster<WordCollection> getHCluster() {
+        return repository.getHierarchicalCluster();
+    }
+
+    protected void createHCluster() {
+        repository.setHierarchicalCluster(HierarchicalCluster.createClusters(repository.getWordCollections()));
     }
 }

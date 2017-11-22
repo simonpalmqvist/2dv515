@@ -1,10 +1,13 @@
-package a2.words;
+package a2.wiki;
 
 import a2.cluster.HierarchicalCluster;
+import a2.cluster.WordCollection;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-abstract public class WordsRepository {
+@Repository
+public class WikiRepository {
     private CommonWords commonWords;
     final private List<WordCollection> wordCollections = new ArrayList<>();
     private List<Set<WordCollection>> kClusters;

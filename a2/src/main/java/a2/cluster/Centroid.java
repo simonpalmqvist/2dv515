@@ -17,7 +17,7 @@ public class Centroid <T extends PearsonItem>  {
     }
 
     void resetItems() {
-        previousItems = currentItems;
+        previousItems = currentItems; // Store last iteration when reseting centroid to be able to check if next iteration matches the last one
         currentItems = new HashSet<>();
     }
 

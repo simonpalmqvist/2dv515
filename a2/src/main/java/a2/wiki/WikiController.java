@@ -24,8 +24,10 @@ public class WikiController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void pickedWords(@RequestBody String[] pickedWords) {
+        // If we already selected words then just ignore
         if(service.getCommonWords().hasSelectedWords()) return;
 
+        // Store selected words and create clusters based on those
         service.setSelectedWords(pickedWords);
     }
 

@@ -24,6 +24,7 @@ public class WordCollection implements PearsonItem {
     }
 
     public void addWord(String word, Double value) {
+        // If word exist just update number of occurrences
         Double currentValue = wordOccurrences.get(word);
 
         if(currentValue == null) {

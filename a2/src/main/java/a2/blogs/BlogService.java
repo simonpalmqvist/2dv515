@@ -26,6 +26,7 @@ public class BlogService {
     public void init() throws IOException {
         File file = ResourceUtils.getFile("classpath:blogdata.txt");
 
+        // Read in data from blogdata file and store as word collections
         List<String[]> items = Files
                 .lines(file.toPath())
                 .map(line -> line.split("\\t"))
@@ -39,6 +40,7 @@ public class BlogService {
                     for(int i = 1; i < data.length; i++) wordCollection.addWord(items.get(0)[i], Double.parseDouble(data[i]));
         });
 
+        // create clusters from word collections
         createKCluster();
         createHCluster();
     }

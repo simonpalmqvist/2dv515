@@ -29,6 +29,7 @@ public class HierarchicalCluster<T extends PearsonItem> {
     HierarchicalCluster<T> merge(HierarchicalCluster<T> cluster, double distance) {
         HierarchicalCluster<T> mergedCluster = new HierarchicalCluster<>();
 
+        // Create new cluster for this and another cluster and calculate average score for cluster
         mergedCluster.setLeft(this);
         mergedCluster.setRight(cluster);
         this.setParent(mergedCluster);
@@ -99,11 +100,14 @@ public class HierarchicalCluster<T extends PearsonItem> {
     public static <T extends PearsonItem> HierarchicalCluster<T> createClusters(Collection<T> items) {
         ArrayList<HierarchicalCluster<T>> clusters = new ArrayList<>();
 
+        // Create clusters from pearson items
         for(T item : items) clusters.add(new HierarchicalCluster<>(item));
 
 
+        // as long as there are more root clusters than one, iterate and merge them
         while(clusters.size() > 1) iterate(clusters);
 
+        // return root cluster
         return clusters.get(0);
     }
 
@@ -112,6 +116,7 @@ public class HierarchicalCluster<T extends PearsonItem> {
         HierarchicalCluster<T> bestA = null;
         HierarchicalCluster<T> bestB = null;
 
+        // find best match
         for(int i = 0; i < clusters.size(); i++) {
             for(int j = i + 1; j < clusters.size(); j++) {
                 HierarchicalCluster<T> currentA = clusters.get(i);
@@ -127,6 +132,7 @@ public class HierarchicalCluster<T extends PearsonItem> {
             }
         }
 
+        // merge best match and add new cluster and remove best match clusters from clusters
         HierarchicalCluster<T> mergedCluster = bestA.merge(bestB, closestDistance);
 
         clusters.add(mergedCluster);

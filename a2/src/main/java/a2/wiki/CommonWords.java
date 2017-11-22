@@ -8,6 +8,7 @@ public class CommonWords {
     private Map<String, Double> topWords;
     private List<String> selectedWords;
 
+    // Words that we are not interested in using.
     public final static Set<String> FILTER_WORDS = new HashSet<>(Arrays.asList(
             "for",
             "with",
@@ -83,6 +84,7 @@ public class CommonWords {
     ));
 
     public CommonWords(Map<String, Double> words) {
+        // Filter away words that we are not interested in, sort them with most occurrences first and get the top 100
         topWords = words
                 .entrySet()
                 .stream()

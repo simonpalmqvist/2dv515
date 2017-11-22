@@ -26,7 +26,7 @@ public class WikiService {
 
         Map<String, Double> words = new LinkedHashMap<>();
 
-
+        // Go through each file in path and create a word collection, also store all words with how many times they occur in a map
         for (final File subFolder : folder.listFiles()) {
             if(!subFolder.isDirectory()) continue;
             for (final File file : subFolder.listFiles()) {
@@ -46,6 +46,7 @@ public class WikiService {
             }
         }
 
+        // Set all words that there is in common
         repository.setCommonWords(words);
     }
 
@@ -54,6 +55,7 @@ public class WikiService {
     }
 
     public void setSelectedWords(String[] words) {
+        // Store selected words, filter away all words that are not selected in collections and create clusters
         repository.setSelectedWords(words);
         updateWordCollectionsWords();
         createKCluster();
@@ -72,6 +74,7 @@ public class WikiService {
     }
 
     protected void createKCluster() {
+        // Create 4 K-means clusters
         repository.setkClusters(KmeansCluster.createCluster(repository.getWordCollections(), 4));
     }
 

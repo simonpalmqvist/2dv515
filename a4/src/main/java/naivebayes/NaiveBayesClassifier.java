@@ -14,20 +14,26 @@ public class NaiveBayesClassifier implements Classifier {
 
     public void train(Dataset train) {
 
+        // Store each attribute name in map
         for(int i = 0; i < train.noAttributes(); i++) {
             aggAttributes.put(train.getAttributeName(i), new HashMap<>());
         }
 
+        // Store each class attribute value
         train.getDistinctClassValues().getNominalValues().forEach(nom -> aggClassAttributes.put(nom, 0.0));
 
+        // Store number of instances
         numOfInstances = train.noInstances();
 
         for(int i = 0; i < train.noInstances(); i++) {
             Instance instance = train.getInstance(i);
 
             String classNom = instance.getClassAttribute().nominalValue();
+
+            // Increment classAttribute value that matches instance class attribute value
             aggClassAttributes.put(classNom, aggClassAttributes.get(classNom) + 1.0);
 
+            // For each attribute on instance aggregate value
             for(int j = 0; j < instance.noAttributes(); j++) {
                 Attribute attr = instance.getAttribute(j);
                 String nom = attr.nominalValue();
@@ -43,21 +49,26 @@ public class NaiveBayesClassifier implements Classifier {
     }
 
     public Result classify(Instance inst) {
-        Map<String, Double> probablility = new HashMap<>();
+        Map<String, Double> probability = new HashMap<>();
 
+        // Go through all class attributes
         for(Map.Entry<String, Double> classAttr : aggClassAttributes.entrySet()) {
-            probablility.put(classAttr.getKey(), classAttr.getValue() / numOfInstances);
+            probability.put(classAttr.getKey(), classAttr.getValue() / numOfInstances); // Add frequency of class attribute
 
             for(int i = 0; i < inst.noAttributes(); i++) {
                 Attribute attr = inst.getAttribute(i);
+
+                // Get frequency for  attribute to class attribute
                 Double p = aggAttributes.get(inst.getAttributeName(i)).get(attr.nominalValue()) / classAttr.getValue();
 
-                probablility.put(classAttr.getKey(), p * probablility.get(classAttr.getKey()));
+                // Multiply frequency with probability for class attribute
+                probability.put(classAttr.getKey(), p * probability.get(classAttr.getKey()));
             }
         }
 
+        // Return the class attribute nominal value with highest probability
         return new Result(
-                probablility
+                probability
                         .entrySet()
                         .stream()
                         .max((e1, e2) -> e1.getValue().compareTo(e2.getValue()))

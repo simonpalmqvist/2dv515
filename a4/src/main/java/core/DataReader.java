@@ -1,5 +1,5 @@
 
-package naivebayes.core;
+package core;
 
 /**
  * Interface for a datafile reader implementation.

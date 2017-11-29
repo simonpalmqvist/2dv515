@@ -1,5 +1,5 @@
 
-package naivebayes.core;
+package core;
 
 import java.io.*;
 import java.util.ArrayList;

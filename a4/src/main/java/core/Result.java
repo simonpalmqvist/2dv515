@@ -1,5 +1,5 @@
 
-package naivebayes.core;
+package core;
 
 /**
  * This class represents a result from classifying an instance.

@@ -1,6 +1,6 @@
 package naivebayes;
 
-import naivebayes.core.*;
+import core.*;
 
 import java.util.HashMap;
 import java.util.Map;

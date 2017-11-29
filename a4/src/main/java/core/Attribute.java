@@ -1,5 +1,5 @@
 
-package naivebayes.core;
+package core;
 
 /**
  * This class represents an attribute (feature) in an instance.

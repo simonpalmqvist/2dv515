@@ -1,15 +1,17 @@
 package project.recommendations;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import project.movies.Movie;
 
 public class Recommendation implements Comparable<Recommendation> {
 
     private final Movie movie;
     private final SimilarityType similarityType = SimilarityType.getInstance();
-    public double euclideanTotalScore = 0.0;
-    public double euclideanSimilarityScore = 0.0;
-    public double pearsonTotalScore = 0.0;
-    public double pearsonSimilarityScore = 0.0;
+
+    @JsonIgnore public double euclideanTotalScore = 0.0;
+    @JsonIgnore public double euclideanSimilarityScore = 0.0;
+    @JsonIgnore public double pearsonTotalScore = 0.0;
+    @JsonIgnore public double pearsonSimilarityScore = 0.0;
 
     public Recommendation(Movie movie) {
         this.movie = movie;

@@ -1,5 +1,7 @@
 package project.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +22,7 @@ public class User {
         ratings.put(movieName, rating);
     }
 
+    @JsonIgnore
     public Map<String, Double> getRatings() {
         return ratings;
     }

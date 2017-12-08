@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.movies.Movie;
 import project.users.User;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -129,5 +127,25 @@ public class RecommendationsService {
                 .forEach(r -> System.out.println(r.getMovie().getName() + " score " + r.getWeightedScore() ));
         System.out.println();
         System.out.println();
+    }
+
+    List<Recommendation> findUserBasedRecommendation(String user, boolean pearson) {
+        if(pearson) SimilarityType.getInstance().usePearson();
+        else SimilarityType.getInstance().useEuclidean();
+
+        return repository.findUserBasedRecommendation(user)
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    List<Recommendation> findItemBasedRecommendation(String user, boolean pearson) {
+        if(pearson) SimilarityType.getInstance().usePearson();
+        else SimilarityType.getInstance().useEuclidean();
+
+        return repository.findItemBasedRecommendation(user)
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
     }
 }

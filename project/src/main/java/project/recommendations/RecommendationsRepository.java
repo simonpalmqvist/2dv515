@@ -1,9 +1,7 @@
 package project.recommendations;
 
 import org.springframework.stereotype.Repository;
-import project.users.User;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -11,14 +9,22 @@ import java.util.Set;
 @Repository
 public class RecommendationsRepository {
 
-    final private Map<String, Set<Recommendation>> recommendations = new HashMap<>();
+    final private Map<String, Set<Recommendation>> userBasedRecommendations = new HashMap<>();
+    final private Map<String, Set<Recommendation>> itemBasedRecommendations = new HashMap<>();
 
-    void addRecommendation(String user, Set<Recommendation> recommendation) {
-        recommendations.put(user, recommendation);
+    void addUserBasedRecommendation(String user, Set<Recommendation> recommendation) {
+        userBasedRecommendations.put(user, recommendation);
     }
 
-    Set<Recommendation> findRecommendation(String user) {
-        return recommendations.get(user);
+    void addItemBasedRecommendation(String user, Set<Recommendation> recommendation) {
+        itemBasedRecommendations.put(user, recommendation);
     }
 
+    Set<Recommendation> findUserBasedRecommendation(String user) {
+        return userBasedRecommendations.get(user);
+    }
+
+    Set<Recommendation> findItemBasedRecommendation(String user) {
+        return itemBasedRecommendations.get(user);
+    }
 }

@@ -84,6 +84,7 @@ public class Init implements ApplicationRunner {
 
     private void createRating(User user, Movie movie, double rating) {
         user.addRating(movie.getName(), rating);
+        movie.addRating(user.getName(), rating);
     }
 }
 

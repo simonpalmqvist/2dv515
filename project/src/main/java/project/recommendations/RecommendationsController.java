@@ -28,11 +28,11 @@ public class RecommendationsController {
 
     @GetMapping("/pearson/user")
     public List<Recommendation> findPearsonUserBasedRecommendation(@RequestParam(value="user", defaultValue="") String user) {
-        return service.findUserBasedRecommendation(user, false);
+        return service.findUserBasedRecommendation(user, true);
     }
 
     @GetMapping("/pearson/item")
     public List<Recommendation> findPearsonItemBasedRecommendation(@RequestParam(value="user", defaultValue="") String user) {
-        return service.findItemBasedRecommendation(user, false);
+        return service.findItemBasedRecommendation(user, true);
     }
 }

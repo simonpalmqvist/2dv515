@@ -1,6 +1,7 @@
 package project.users;
 
 import org.springframework.stereotype.Repository;
+import project.ratings.Rating;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,7 +12,7 @@ public class UsersRepository {
 
     final private Map<String, User> users = new HashMap<>();
 
-    User addUser(String name) {
+    public User addUser(String name) {
         User user = new User(name);
 
         users.put(name, user);

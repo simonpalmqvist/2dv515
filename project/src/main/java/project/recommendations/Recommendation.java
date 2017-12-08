@@ -5,8 +5,11 @@ import project.movies.Movie;
 public class Recommendation implements Comparable<Recommendation> {
 
     private final Movie movie;
-    public double totalScore = 0.0;
-    public double similarityScore = 0.0;
+    private final SimilarityType similarityType = SimilarityType.getInstance();
+    public double euclideanTotalScore = 0.0;
+    public double euclideanSimilarityScore = 0.0;
+    public double pearsonTotalScore = 0.0;
+    public double pearsonSimilarityScore = 0.0;
 
     public Recommendation(Movie movie) {
         this.movie = movie;
@@ -17,7 +20,9 @@ public class Recommendation implements Comparable<Recommendation> {
     }
 
     public double getWeightedScore() {
-        return totalScore / similarityScore;
+        return similarityType.isUsePearson() ?
+                pearsonTotalScore / pearsonSimilarityScore :
+                euclideanTotalScore / euclideanSimilarityScore;
     }
 
     @Override

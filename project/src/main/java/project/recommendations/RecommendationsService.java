@@ -27,14 +27,17 @@ public class RecommendationsService {
             for(User userB : users) {
                 Map<String, Double> bRatings = userB.getRatings();
 
-                double similarityScore = Euclidean.calculateScore(userA.getRatings(), bRatings);
+                double euclideanSimilarityScore = Euclidean.calculateScore(userA.getRatings(), bRatings);
+                double pearsonSimilarityScore = Pearson.calculateScore(userA.getRatings(), bRatings);
 
                 for(Recommendation recommendation : recommendations) {
                     String movieName = recommendation.getMovie().getName();
 
                     if(bRatings.containsKey(movieName)) {
-                        recommendation.totalScore += similarityScore * bRatings.get(movieName);
-                        recommendation.similarityScore += similarityScore;
+                        recommendation.euclideanTotalScore += euclideanSimilarityScore * bRatings.get(movieName);
+                        recommendation.euclideanSimilarityScore += euclideanSimilarityScore;
+                        recommendation.pearsonTotalScore += pearsonSimilarityScore * bRatings.get(movieName);
+                        recommendation.pearsonSimilarityScore += pearsonSimilarityScore;
                     }
                 }
             }
@@ -44,6 +47,18 @@ public class RecommendationsService {
                     .sorted()
                     .collect(Collectors.toSet())
             );
+
+            SimilarityType.getInstance().useEuclidean();
+            System.out.println(userA.getName());
+            System.out.println("EUCLIDEAN");
+            recommendations
+                    .stream()
+                    .sorted()
+                    .forEach(r -> System.out.println(r.getMovie().getName() + " score " + r.getWeightedScore() ));
+
+            SimilarityType.getInstance().usePearson();
+
+            System.out.println("PEARSON");
             recommendations
                     .stream()
                     .sorted()

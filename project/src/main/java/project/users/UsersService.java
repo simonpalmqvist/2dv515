@@ -3,9 +3,7 @@ package project.users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.util.Collection;
-
+import java.util.*;
 
 @Service
 public class UsersService {
@@ -15,5 +13,9 @@ public class UsersService {
 
     public Collection<User> getUsers() {
         return repository.getUsers();
+    }
+
+    public User addUser(String name) {
+        return repository.addUser(name);
     }
 }

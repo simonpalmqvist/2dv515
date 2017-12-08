@@ -1,16 +1,12 @@
 package project.users;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import project.ratings.Rating;
-
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 public class User {
 
     private final String name;
-    final private Map<String, Rating> ratings = new HashMap<>();
+    final private Map<String, Double> ratings = new HashMap<>();
 
     User(String name) {
         this.name = name;
@@ -20,11 +16,11 @@ public class User {
         return name;
     }
 
-    public void addRating(Rating rating) {
-        ratings.put(rating.getMovieName(), rating);
+    public void addRating(String movieName, double rating) {
+        ratings.put(movieName, rating);
     }
 
-    public Collection<Rating> getRatings() {
-        return ratings.values();
+    public Map<String, Double> getRatings() {
+        return ratings;
     }
 }

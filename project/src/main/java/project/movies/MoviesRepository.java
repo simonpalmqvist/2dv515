@@ -20,7 +20,7 @@ public class MoviesRepository {
         return movie;
     }
 
-    Collection<Movie> getMovies() {
+    public Collection<Movie> getMovies() {
         return movies.values();
     }
 }

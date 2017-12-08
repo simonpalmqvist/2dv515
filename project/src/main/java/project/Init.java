@@ -6,34 +6,37 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import project.movies.Movie;
 import project.movies.MoviesRepository;
-import project.ratings.Rating;
+import project.recommendations.RecommendationsService;
 import project.users.User;
-import project.users.UsersRepository;
+import project.users.UsersService;
 
 @Component
 public class Init implements ApplicationRunner {
 
     @Autowired
-    private UsersRepository usersRepository;
+    private UsersService usersService;
 
     @Autowired
     private MoviesRepository moviesRepository;
+
+    @Autowired
+    private RecommendationsService recommendationsService;
 
     public void run(ApplicationArguments args) {
         Movie ladyInTheWater = moviesRepository.addMovie("Lady in the Water");
         Movie snakesOnAPlane = moviesRepository.addMovie("Snakes on a Plane");
         Movie justMyLuck = moviesRepository.addMovie("Just My Luck");
         Movie supermanReturns = moviesRepository.addMovie("Superman Returns");
-        Movie youMeAndDupree = moviesRepository.addMovie("You, Me and Dupree ");
+        Movie youMeAndDupree = moviesRepository.addMovie("You, Me and Dupree");
         Movie theNightListener = moviesRepository.addMovie("The Night Listener");
 
-        User lisa = usersRepository.addUser("Lisa");
-        User gene = usersRepository.addUser("Gene");
-        User michael = usersRepository.addUser("Michael");
-        User claudia = usersRepository.addUser("Claudia");
-        User mick = usersRepository.addUser("Mick");
-        User jack = usersRepository.addUser("Jack");
-        User toby = usersRepository.addUser("Toby");
+        User lisa = usersService.addUser("Lisa");
+        User gene = usersService.addUser("Gene");
+        User michael = usersService.addUser("Michael");
+        User claudia = usersService.addUser("Claudia");
+        User mick = usersService.addUser("Mick");
+        User jack = usersService.addUser("Jack");
+        User toby = usersService.addUser("Toby");
 
         createRating(lisa, ladyInTheWater, 2.5);
         createRating(gene, ladyInTheWater, 3.0);
@@ -75,11 +78,12 @@ public class Init implements ApplicationRunner {
         createRating(claudia, theNightListener, 4.5);
         createRating(mick, theNightListener, 3.0);
         createRating(jack, theNightListener, 3.0);
+
+        recommendationsService.storeRecommendedMovies(usersService.getUsers(), moviesRepository.getMovies());
     }
 
-    private void createRating(User user, Movie movie, double ratingValue) {
-        Rating rating = new Rating(movie.getName(), ratingValue);
-        user.addRating(rating);
+    private void createRating(User user, Movie movie, double rating) {
+        user.addRating(movie.getName(), rating);
     }
 }
 

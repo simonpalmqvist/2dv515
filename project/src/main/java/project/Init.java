@@ -41,7 +41,7 @@ public class Init implements ApplicationRunner {
         Files
                 .lines(movieFile.toPath())
                 .skip(1)
-                .map(l -> l.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"))
+                .map(l -> l.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)")) // nice regex shamelessly stolen from stackoverflow for solving the issue with commas inside movie names
                 .forEach(data -> {
                     moviesRepository.addMovie(Integer.parseInt(data[0]), data[1].replace("\"", ""));
                 });

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import project.movies.Movie;
 import project.movies.MoviesRepository;
 import project.users.User;
-import project.users.UsersRepository;
 import project.users.UsersService;
 
 import java.util.*;
@@ -13,8 +12,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class RecommendationsService {
-
-    private Map<Integer, Map<Integer, SimilarityScore>> similarityScores = new HashMap<>();
 
     @Autowired
     private MoviesRepository moviesRepository;
@@ -27,16 +24,19 @@ public class RecommendationsService {
 
     public void storeSimilarityBetweenMovies() {
 
+        // Filter away all movies without any ratings
         Collection<Movie> filteredMovies = moviesRepository.getMovies()
                 .stream()
                 .filter(m -> m.getRatings().size() > 0)
                 .collect(Collectors.toSet());
 
         for(Movie movieA : filteredMovies) {
+
+            // create new score map and store it.
             Map<Integer, SimilarityScore> movieScores = new HashMap<>();
+            repository.addSimilarityScores(movieA.getId(), movieScores);
 
-            similarityScores.put(movieA.getId(), movieScores);
-
+            // calculate scores for all other movies
             for (Movie movieB : filteredMovies) {
                 if (movieA != movieB) {
                     Map<Integer, Double> bRatings = movieB.getRatings();
@@ -57,17 +57,19 @@ public class RecommendationsService {
     List<Recommendation> findUserBasedRecommendation(int userId, boolean pearson) {
         User user = usersService.getUser(userId);
 
-        Set<Recommendation> recommendations = getMoviesNotSeenByUser(user);
+        Set<Recommendation> recommendations = getMoviesNotRatedByUser(user);
 
         for(User userB : usersService.getUsers()) {
             Map<Integer, Double> bRatings = userB.getRatings();
 
+            // get score depending on setting
             double similarityScore = pearson ?
                     Pearson.calculateScore(user.getRatings(), bRatings) :
                     Euclidean.calculateScore(user.getRatings(), bRatings);
 
             if (similarityScore == 0) continue; // Skip checking for recommendations if user are not similar
 
+            // go through movies not rated by user and add a recommendation score.
             for (Recommendation recommendation : recommendations) {
                 int movieId = recommendation.getMovie().getId();
 
@@ -84,14 +86,17 @@ public class RecommendationsService {
     List<Recommendation> findItemBasedRecommendation(int userId, boolean pearson) {
         User user = usersService.getUser(userId);
 
-        Set<Recommendation> recommendations = getMoviesNotSeenByUser(user);
+        Set<Recommendation> recommendations = getMoviesNotRatedByUser(user);
 
+
+        // For each of the users rated movies we go thorugh and get a score for each movie.
         for(Map.Entry<Integer, Double> ratedMovie : user.getRatings().entrySet()) {
 
             for(Recommendation recommendation : recommendations) {
 
-                SimilarityScore similarityScore = similarityScores
-                        .get(ratedMovie.getKey())
+                // Find similarity scores for the two movies
+                SimilarityScore similarityScore = repository
+                        .getSimilarityScores(ratedMovie.getKey())
                         .get(recommendation.getMovie().getId());
 
                 if(similarityScore != null) {
@@ -106,7 +111,7 @@ public class RecommendationsService {
         return getTop100(recommendations);
     }
 
-    private Set<Recommendation> getMoviesNotSeenByUser(User user) {
+    private Set<Recommendation> getMoviesNotRatedByUser(User user) {
         return moviesRepository.getMovies()
                 .stream()
                 .filter(m -> m.getRatings().size() > 0 && !user.getRatings().containsKey(m.getId()))

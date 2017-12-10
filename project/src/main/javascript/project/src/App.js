@@ -5,10 +5,70 @@ import styled from 'styled-components'
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
+  margin: 0;
+  padding: 0;
 `
 
 const Menu = styled.nav`
+  padding: 1rem;
+  margin: 0;
   width: 20%;
+  border-right: 1px solid rgb(240, 240,240);
+`
+
+const Content = styled.div`
+  padding: 1rem 2rem;
+`
+
+const Title = styled.h1`
+  font-family: Helvetica, Arial, sans-serif;
+  margin: 1rem 0;
+  font-size: 3rem;
+  font-weight: bold;
+`
+
+const Headline = styled.h2`
+  font-family: Helvetica, Arial, sans-serif;
+  margin: 1rem 0;
+  font-size: 1.4rem;
+  font-weight: bold;
+`
+
+const A = styled.a`
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  color: rgb(50,50,240);
+  text-decoration: none;
+`
+
+const Label = styled.label`
+  font-family: Helvetica, Arial, sans-serif;
+  width: 100%;
+  display:block;
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  font-weight: bold;
+`
+
+const Select = styled.select`
+  width: 100%;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+`
+
+const List = styled.ul`
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgb(240,240,240);  
+`
+
+const ListItem = styled.li`
+	list-style-type: none;
+	padding: 0.8rem 0;
+	margin: 0;
+	width: 100%;
+	border-bottom: 1px solid rgb(240,240,240);
 `
 
 class App extends Component {
@@ -67,44 +127,45 @@ class App extends Component {
     return (
         <Wrapper>
           <Menu>
-            <label>Similarity measure: </label>
-            <select value={this.state.scoreType} onChange={this.setScoreType.bind(this)}>
+            <Label>Similarity measure</Label>
+            <Select value={this.state.scoreType} onChange={this.setScoreType.bind(this)}>
               <option value='euclidean'>Euclidean</option>
               <option value='pearson'>Pearson</option>
-            </select>
+            </Select>
             <br/>
-            <label>Type: </label>
-            <select value={this.state.type} onChange={this.setType.bind(this)}>
+            <Label>Type</Label>
+            <Select value={this.state.type} onChange={this.setType.bind(this)}>
               <option value='user'>User-based</option>
               <option value='item'>Item-based</option>
-            </select>
-            <ul>
+            </Select>
+            <Headline>Users</Headline>
+            <List>
               {
                 this.state.users.map(user => (
-                    <li key={user.id}>
-                      <a href='#' onClick={this.setActiveUser.bind(this, user)} >
+                    <ListItem key={user.id}>
+                      <A href='#' onClick={this.setActiveUser.bind(this, user)} >
                         {user.name}
-                      </a>
-                    </li>
+                      </A>
+                    </ListItem>
                 ))
               }
-            </ul>
+            </List>
           </Menu>
           {
             this.state.activeUser && (
-                <div>
-                  <h1>{this.state.activeUser.name}</h1>
-                  <h2>Recommendations</h2>
-                  <ul>
+                <Content>
+                  <Title>{this.state.activeUser.name}</Title>
+                  <Headline>Recommendations</Headline>
+                  <List>
                     {
                       this.state.recommendations.map(recommendation => (
-                          <li key={recommendation.movie.id}>
+                          <ListItem key={recommendation.movie.id}>
                             {recommendation.movie.name} ({this.roundScore(recommendation.weightedScore)})
-                          </li>
+                          </ListItem>
                       ))
                     }
-                  </ul>
-                </div>
+                  </List>
+                </Content>
             )
           }
         </Wrapper>

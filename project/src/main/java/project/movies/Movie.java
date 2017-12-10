@@ -6,11 +6,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Movie {
+    private final int id;
     private final String name;
-    final private Map<String, Double> ratings = new HashMap<>();
+    final private Map<Integer, Double> ratings = new HashMap<>();
 
-    public Movie(String name) {
+    public Movie(int id, String name) {
+        this.id = id;
         this.name = name;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -18,12 +24,13 @@ public class Movie {
     }
 
 
-    public void addRating(String userName, double rating) {
-        ratings.put(userName, rating);
+    public void addRating(int userId, double rating) {
+        ratings.put(userId, rating);
     }
 
     @JsonIgnore
-    public Map<String, Double> getRatings() {
+    public Map<Integer, Double> getRatings() {
         return ratings;
     }
+
 }

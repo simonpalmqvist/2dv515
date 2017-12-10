@@ -53,7 +53,7 @@ class App extends Component {
   fetchRecommendations () {
     if(!this.state.activeUser) return
 
-    fetch(`/api/recommendation/${this.state.scoreType}/${this.state.type}?user=${this.state.activeUser.name}`)
+    fetch(`/api/recommendation/${this.state.scoreType}/${this.state.type}?user=${this.state.activeUser.id}`)
         .then(result => result.json())
         .then(recommendations => this.setState({ recommendations }))
   }
@@ -81,7 +81,7 @@ class App extends Component {
             <ul>
               {
                 this.state.users.map(user => (
-                    <li key={user.name}>
+                    <li key={user.id}>
                       <a href='#' onClick={this.setActiveUser.bind(this, user)} >
                         {user.name}
                       </a>
@@ -98,7 +98,7 @@ class App extends Component {
                   <ul>
                     {
                       this.state.recommendations.map(recommendation => (
-                          <li key={recommendation.movie.name}>
+                          <li key={recommendation.movie.id}>
                             {recommendation.movie.name} ({this.roundScore(recommendation.weightedScore)})
                           </li>
                       ))

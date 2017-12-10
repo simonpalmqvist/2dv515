@@ -9,12 +9,12 @@ import java.util.Map;
 @Repository
 public class UsersRepository {
 
-    final private Map<String, User> users = new HashMap<>();
+    final private Map<Integer, User> users = new HashMap<>();
 
-    User addUser(String name) {
-        User user = new User(name);
+    User addUser(int id, String name) {
+        User user = new User(id, name);
 
-        users.put(name, user);
+        users.put(id, user);
 
         return user;
     }

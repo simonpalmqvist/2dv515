@@ -23,20 +23,20 @@ public class Init implements ApplicationRunner {
     private RecommendationsService recommendationsService;
 
     public void run(ApplicationArguments args) {
-        Movie ladyInTheWater = moviesRepository.addMovie("Lady in the Water");
-        Movie snakesOnAPlane = moviesRepository.addMovie("Snakes on a Plane");
-        Movie justMyLuck = moviesRepository.addMovie("Just My Luck");
-        Movie supermanReturns = moviesRepository.addMovie("Superman Returns");
-        Movie youMeAndDupree = moviesRepository.addMovie("You, Me and Dupree");
-        Movie theNightListener = moviesRepository.addMovie("The Night Listener");
+        Movie ladyInTheWater = moviesRepository.addMovie(1, "Lady in the Water");
+        Movie snakesOnAPlane = moviesRepository.addMovie(2, "Snakes on a Plane");
+        Movie justMyLuck = moviesRepository.addMovie(3, "Just My Luck");
+        Movie supermanReturns = moviesRepository.addMovie(4, "Superman Returns");
+        Movie youMeAndDupree = moviesRepository.addMovie(5, "You, Me and Dupree");
+        Movie theNightListener = moviesRepository.addMovie(6, "The Night Listener");
 
-        User lisa = usersService.addUser("Lisa");
-        User gene = usersService.addUser("Gene");
-        User michael = usersService.addUser("Michael");
-        User claudia = usersService.addUser("Claudia");
-        User mick = usersService.addUser("Mick");
-        User jack = usersService.addUser("Jack");
-        User toby = usersService.addUser("Toby");
+        User lisa = usersService.addUser(1, "Lisa");
+        User gene = usersService.addUser(2, "Gene");
+        User michael = usersService.addUser(3, "Michael");
+        User claudia = usersService.addUser(4, "Claudia");
+        User mick = usersService.addUser(5, "Mick");
+        User jack = usersService.addUser(6, "Jack");
+        User toby = usersService.addUser(7, "Toby");
 
         createRating(lisa, ladyInTheWater, 2.5);
         createRating(gene, ladyInTheWater, 3.0);
@@ -83,8 +83,8 @@ public class Init implements ApplicationRunner {
     }
 
     private void createRating(User user, Movie movie, double rating) {
-        user.addRating(movie.getName(), rating);
-        movie.addRating(user.getName(), rating);
+        user.addRating(movie.getId(), rating);
+        movie.addRating(user.getId(), rating);
     }
 }
 

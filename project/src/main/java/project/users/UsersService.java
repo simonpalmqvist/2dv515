@@ -15,7 +15,7 @@ public class UsersService {
         return repository.getUsers();
     }
 
-    public User addUser(String name) {
-        return repository.addUser(name);
+    public User addUser(int id, String name) {
+        return repository.addUser(id, name);
     }
 }

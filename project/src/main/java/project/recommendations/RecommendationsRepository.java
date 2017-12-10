@@ -9,22 +9,22 @@ import java.util.Set;
 @Repository
 public class RecommendationsRepository {
 
-    final private Map<String, Set<Recommendation>> userBasedRecommendations = new HashMap<>();
-    final private Map<String, Set<Recommendation>> itemBasedRecommendations = new HashMap<>();
+    final private Map<Integer, Set<Recommendation>> userBasedRecommendations = new HashMap<>();
+    final private Map<Integer, Set<Recommendation>> itemBasedRecommendations = new HashMap<>();
 
-    void addUserBasedRecommendation(String user, Set<Recommendation> recommendation) {
-        userBasedRecommendations.put(user, recommendation);
+    void addUserBasedRecommendation(int userId, Set<Recommendation> recommendation) {
+        userBasedRecommendations.put(userId, recommendation);
     }
 
-    void addItemBasedRecommendation(String user, Set<Recommendation> recommendation) {
-        itemBasedRecommendations.put(user, recommendation);
+    void addItemBasedRecommendation(int userId, Set<Recommendation> recommendation) {
+        itemBasedRecommendations.put(userId, recommendation);
     }
 
-    Set<Recommendation> findUserBasedRecommendation(String user) {
-        return userBasedRecommendations.get(user);
+    Set<Recommendation> findUserBasedRecommendation(int userId) {
+        return userBasedRecommendations.get(userId);
     }
 
-    Set<Recommendation> findItemBasedRecommendation(String user) {
-        return itemBasedRecommendations.get(user);
+    Set<Recommendation> findItemBasedRecommendation(int userId) {
+        return itemBasedRecommendations.get(userId);
     }
 }

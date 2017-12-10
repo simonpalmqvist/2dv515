@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Pearson {
 
-    public static double calculateScore(Map<String, Double> a, Map<String, Double> b) {
+    public static double calculateScore(Map<Integer, Double> a, Map<Integer, Double> b) {
         double sumA = 0;
         double sumB = 0;
         double sumAsq = 0;
@@ -12,7 +12,7 @@ public class Pearson {
         double pSum = 0;
         double counter = 0;
 
-        for(String id : a.keySet()) {
+        for(int id : a.keySet()) {
             double aValue = a.get(id);
 
             if(b.containsKey(id)) {

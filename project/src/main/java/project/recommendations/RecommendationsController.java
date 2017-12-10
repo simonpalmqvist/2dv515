@@ -17,22 +17,22 @@ public class RecommendationsController {
     RecommendationsService service;
 
     @GetMapping("/euclidean/user")
-    public List<Recommendation> findEuclideanUserBasedRecommendation(@RequestParam(value="user", defaultValue="") String user) {
-        return service.findUserBasedRecommendation(user, false);
+    public List<Recommendation> findEuclideanUserBasedRecommendation(@RequestParam(value="user", defaultValue="") int userId) {
+        return service.findUserBasedRecommendation(userId, false);
     }
 
     @GetMapping("/euclidean/item")
-    public List<Recommendation> findEuclideanItemBasedRecommendation(@RequestParam(value="user", defaultValue="") String user) {
-        return service.findItemBasedRecommendation(user, false);
+    public List<Recommendation> findEuclideanItemBasedRecommendation(@RequestParam(value="user", defaultValue="") int userId) {
+        return service.findItemBasedRecommendation(userId, false);
     }
 
     @GetMapping("/pearson/user")
-    public List<Recommendation> findPearsonUserBasedRecommendation(@RequestParam(value="user", defaultValue="") String user) {
-        return service.findUserBasedRecommendation(user, true);
+    public List<Recommendation> findPearsonUserBasedRecommendation(@RequestParam(value="user", defaultValue="") int userId) {
+        return service.findUserBasedRecommendation(userId, true);
     }
 
     @GetMapping("/pearson/item")
-    public List<Recommendation> findPearsonItemBasedRecommendation(@RequestParam(value="user", defaultValue="") String user) {
-        return service.findItemBasedRecommendation(user, true);
+    public List<Recommendation> findPearsonItemBasedRecommendation(@RequestParam(value="user", defaultValue="") int userId) {
+        return service.findItemBasedRecommendation(userId, true);
     }
 }

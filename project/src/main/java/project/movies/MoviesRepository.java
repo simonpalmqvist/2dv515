@@ -19,6 +19,10 @@ public class MoviesRepository {
         return movie;
     }
 
+    public Movie getMovie(int id) {
+        return movies.get(id);
+    }
+
     public Collection<Movie> getMovies() {
         return movies.values();
     }

@@ -19,6 +19,14 @@ public class UsersRepository {
         return user;
     }
 
+    boolean hasUser(int id) {
+        return users.containsKey(id);
+    }
+
+    User getUser(int id) {
+        return users.get(id);
+    }
+
     Collection<User> getUsers() {
         return users.values();
     }

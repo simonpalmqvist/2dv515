@@ -16,6 +16,6 @@ public class UsersService {
     }
 
     public User addUser(int id, String name) {
-        return repository.addUser(id, name);
+        return repository.hasUser(id) ? repository.getUser(id) : repository.addUser(id, name);
     }
 }

@@ -22,9 +22,11 @@ public class Recommendation implements Comparable<Recommendation> {
     }
 
     public double getWeightedScore() {
-        return similarityType.isUsePearson() ?
-                pearsonTotalScore / pearsonSimilarityScore :
-                euclideanTotalScore / euclideanSimilarityScore;
+        if(similarityType.isUsePearson()) {
+            return pearsonSimilarityScore == 0 ? 0 : pearsonTotalScore / pearsonSimilarityScore;
+        } else {
+            return euclideanSimilarityScore == 0 ? 0 : euclideanTotalScore / euclideanSimilarityScore;
+        }
     }
 
     @Override

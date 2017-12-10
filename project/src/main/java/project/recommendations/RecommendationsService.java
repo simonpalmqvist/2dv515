@@ -14,17 +14,12 @@ public class RecommendationsService {
     @Autowired
     private RecommendationsRepository repository;
 
-    public void storeRecommendedMovies(Collection<User> users, Collection<Movie> movies) {
-        storeUserBasedRecommendedMovies(users, movies);
-        storeItemBasedRecommendedMovies(users, movies);
-    }
-
-    private void storeUserBasedRecommendedMovies(Collection<User> users, Collection<Movie> movies) {
+    public void storeUserBasedRecommendedMovies(Collection<User> users, Collection<Movie> movies) {
         for(User userA : users) {
 
             Set<Recommendation> recommendations = movies
                     .stream()
-                    .filter(m -> !userA.getRatings().containsKey(m.getId()))
+                    .filter(m -> m.getRatings().size() > 0 && !userA.getRatings().containsKey(m.getId()))
                     .map(Recommendation::new)
                     .collect(Collectors.toSet());
 
@@ -32,6 +27,9 @@ public class RecommendationsService {
                 Map<Integer, Double> bRatings = userB.getRatings();
 
                 double euclideanSimilarityScore = Euclidean.calculateScore(userA.getRatings(), bRatings);
+
+                if(euclideanSimilarityScore == 0) continue; // Skip checking for recommendations if user are not similar
+
                 double pearsonSimilarityScore = Pearson.calculateScore(userA.getRatings(), bRatings);
 
                 for(Recommendation recommendation : recommendations) {
@@ -47,27 +45,33 @@ public class RecommendationsService {
             }
 
             repository.addUserBasedRecommendation(userA.getId(), recommendations);
-
-            printRecommendations(userA.getName(), recommendations);
         }
     }
 
-    private void storeItemBasedRecommendedMovies(Collection<User> users, Collection<Movie> movies) {
+    public void storeItemBasedRecommendedMovies(Collection<User> users, Collection<Movie> movies) {
         Map<Integer, Map<Movie, Double>> euclideanSimilarityScores = new HashMap<>();
         Map<Integer, Map<Movie, Double>> pearsonSimilarityScores = new HashMap<>();
 
-        for(Movie movieA : movies) {
+        Collection<Movie> filteredMovies = movies
+                .stream()
+                .filter(m -> m.getRatings().size() > 0).collect(Collectors.toSet());
+
+        for(Movie movieA : filteredMovies) {
             Map<Movie, Double> euclideanMovieScores = new HashMap<>();
             Map<Movie, Double> pearsonMovieScores = new HashMap<>();
 
             euclideanSimilarityScores.put(movieA.getId(), euclideanMovieScores);
             pearsonSimilarityScores.put(movieA.getId(), pearsonMovieScores);
 
-            for (Movie movieB : movies) {
+            for (Movie movieB : filteredMovies) {
                 if (movieA != movieB) {
                     Map<Integer, Double> bRatings = movieB.getRatings();
 
-                    euclideanMovieScores.put(movieB, Euclidean.calculateScore(movieA.getRatings(), bRatings));
+                    double euclideanSimilarityScore = Euclidean.calculateScore(movieA.getRatings(), bRatings);
+
+                    if(euclideanSimilarityScore == 0) continue; // Skip storing movies that have no similatiy in ratings
+
+                    euclideanMovieScores.put(movieB, euclideanSimilarityScore);
                     pearsonMovieScores.put(movieB, Pearson.calculateScore(movieA.getRatings(), bRatings));
                 }
 
@@ -76,7 +80,7 @@ public class RecommendationsService {
 
         for(User userA : users) {
 
-            Set<Recommendation> recommendations = movies
+            Set<Recommendation> recommendations = filteredMovies
                     .stream()
                     .filter(m -> !userA.getRatings().containsKey(m.getId()))
                     .map(Recommendation::new)
@@ -102,31 +106,8 @@ public class RecommendationsService {
             }
 
             repository.addItemBasedRecommendation(userA.getId(), recommendations);
-
-            printRecommendations(userA.getName(), recommendations);
         }
 
-    }
-
-
-    private void printRecommendations(String name, Set<Recommendation> recommendations) {
-        SimilarityType.getInstance().useEuclidean();
-        System.out.println(name);
-        System.out.println("EUCLIDEAN");
-        recommendations
-                .stream()
-                .sorted()
-                .forEach(r -> System.out.println(r.getMovie().getName() + " score " + r.getWeightedScore() ));
-
-        SimilarityType.getInstance().usePearson();
-
-        System.out.println("PEARSON");
-        recommendations
-                .stream()
-                .sorted()
-                .forEach(r -> System.out.println(r.getMovie().getName() + " score " + r.getWeightedScore() ));
-        System.out.println();
-        System.out.println();
     }
 
     List<Recommendation> findUserBasedRecommendation(int userId, boolean pearson) {
@@ -136,6 +117,7 @@ public class RecommendationsService {
         return repository.findUserBasedRecommendation(userId)
                 .stream()
                 .sorted()
+                .limit(100)
                 .collect(Collectors.toList());
     }
 
@@ -146,6 +128,7 @@ public class RecommendationsService {
         return repository.findItemBasedRecommendation(userId)
                 .stream()
                 .sorted()
+                .limit(100)
                 .collect(Collectors.toList());
     }
 }

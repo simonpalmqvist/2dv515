@@ -19,6 +19,7 @@ public class KernelMethodClassifier implements Classifier {
         ArrayList<Instance> list0 = new ArrayList<>();
         ArrayList<Instance> list1 = new ArrayList<>();
 
+        // Sepatate instances into two lists based on class attribute
         for(Instance i : data.toList()) {
             double numValue = i.getClassAttribute().numericalValue();
 
@@ -26,9 +27,12 @@ public class KernelMethodClassifier implements Classifier {
             else if(numValue == 1.0) list1.add(i);
         }
 
+
+        // Calculate rfb sum
         double sum0 = sumOfRBFValues(list0);
         double sum1 = sumOfRBFValues(list1);
 
+        // Store the offset
         offset = (1.0 / Math.pow(list1.size(), 2)) * sum1 - (1.0 / Math.pow(list0.size(), 2)) * sum0;
     }
 
@@ -38,6 +42,7 @@ public class KernelMethodClassifier implements Classifier {
         double[] count = new double[2];
         double[] point = inst.getAttributeArrayNumerical();
 
+        // Calculate radial-basis between this instance and all other instances
         for(Instance t : data.toList()) {
             double[] values = t.getAttributeArrayNumerical();
             int index = (int) t.getClassAttribute().numericalValue();
@@ -46,6 +51,7 @@ public class KernelMethodClassifier implements Classifier {
             count[index]++;
         }
 
+        // calculate y and then determine result
         double y = (1.0 / count[0]) * sum[0] - (1.0 / count[1]) * sum[1] + offset;
 
         Result result = new Result(y > 0 ? 0 : 1);

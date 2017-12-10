@@ -59,12 +59,9 @@ public class Init implements ApplicationRunner {
                 });
         endTimer();
 
-        startTimer("STORE USER-BASED RECOMMENDATIONS");
-        recommendationsService.storeUserBasedRecommendedMovies(usersService.getUsers(), moviesRepository.getMovies());
-        endTimer();
 
-        startTimer("STORE ITEM-BASED RECOMMENDATIONS");
-        recommendationsService.storeItemBasedRecommendedMovies(usersService.getUsers(), moviesRepository.getMovies());
+        startTimer("STORE ITEM SIMILARITY SCORES");
+        recommendationsService.storeSimilarityBetweenMovies();
         endTimer();
     }
 
